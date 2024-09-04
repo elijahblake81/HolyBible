@@ -11,3 +11,6 @@ I've included a python Script that will open an app to provide a GUI search func
 ![image](https://github.com/user-attachments/assets/1207eb6f-9665-4d0b-a3f6-60c85b9a90c9)
 
    
+
+!!Disclaimer!!
+You are welcome to use any of this as long as you don't charge anyone!
