@@ -65,6 +65,10 @@ class BibleSearchApp:
         self.open_bible_button = ttk.Button(display_frame, text="Open in Bible.com", command=self.open_in_bible_com)
         self.open_bible_button.pack(pady=5)
 
+        # Status bar
+        self.status_bar = ttk.Label(self.master, text="", relief=tk.SUNKEN, anchor=tk.W)
+        self.status_bar.pack(fill=tk.X, side=tk.BOTTOM)
+
         # Bind events
         self.tree.bind("<<TreeviewSelect>>", self.on_select)
         self.tree.bind("<Double-1>", self.copy_selected)
@@ -122,7 +126,8 @@ class BibleSearchApp:
             text = "\n".join(f"{self.tree.item(item)['values'][0]} {self.tree.item(item)['values'][1]}:{self.tree.item(item)['values'][2]} - {self.tree.item(item)['values'][3]}" for item in selected_items)
             self.master.clipboard_clear()
             self.master.clipboard_append(text)
-            messagebox.showinfo("Copy Successful", "Selected text copied to clipboard.")
+            self.status_bar.config(text="Copied to clipboard.")
+            self.status_bar.after(3000, self.clear_status_bar)
 
     def copy_all(self):
         all_items = self.tree.get_children()
@@ -130,7 +135,8 @@ class BibleSearchApp:
             text = "\n".join(f"{self.tree.item(item)['values'][0]} {self.tree.item(item)['values'][1]}:{self.tree.item(item)['values'][2]} - {self.tree.item(item)['values'][3]}" for item in all_items)
             self.master.clipboard_clear()
             self.master.clipboard_append(text)
-            messagebox.showinfo("Copy Successful", "All results copied to clipboard.")
+            self.status_bar.config(text="All results copied to clipboard.")
+            self.status_bar.after(3000, self.clear_status_bar)
         else:
             messagebox.showwarning("Copy Failed", "No results to copy.")
 
@@ -151,6 +157,9 @@ class BibleSearchApp:
             webbrowser.open(url)
         else:
             messagebox.showwarning("Selection Required", "Please select a verse to open in Bible.com.")
+
+    def clear_status_bar(self):
+        self.status_bar.config(text="")
 
 if __name__ == "__main__":
     root = tk.Tk()
